@@ -1,0 +1,10 @@
+.box-boundary {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	cursor: pointer;
+	box-shadow: 0 0 0 3px #149DF2 inset
+
+
+}

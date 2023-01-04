@@ -1,0 +1,13 @@
+.logo {
+	height: 150px;
+	width: 150px;
+
+
+}
+
+img {
+
+	padding-top: 5px;
+  background: radial-gradient(circle, #f64f59, #12c2e9, #c471ed ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
