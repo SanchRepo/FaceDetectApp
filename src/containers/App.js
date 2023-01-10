@@ -5,6 +5,8 @@ import Logo from '../components/Logo/Logo';
 import ImageForm from '../components/ImageForm/ImageForm';
 import FaceRecog from '../components/FaceRecog/FaceRecog';
 import Rank from '../components/Rank/Rank';
+import SignIn from '../components/SignIn/SignIn';
+import Register from '../components/Register/Register'
 import Clarifai from 'clarifai';
 import ParticlesBg from 'particles-bg';
 import './App.css';
@@ -27,7 +29,9 @@ class App extends React.Component {
     this.state = {
       input:'',
       imgUrl:'',
-      box:{}
+      box:{},
+      route:'signin',
+      isSignedIn: false
 
     }
   }
@@ -106,7 +110,24 @@ onClickButton = async (event) => {
   //const IMAGE_URL = 'https://samples.clarifai.com/metro-north.jpg';
   const boxPercent = await this.apiData(this.state.input)
   this.setBox(this.calculateBox(boxPercent))
-  
+
+}
+
+routeChange = (route) => {
+  //console.log(route === "home")
+  if (route === "signin") {
+    this.setState({isSignedIn: false})
+    //console.log(this.state.isSignedIn)   
+  } else if (route ==="home") {
+      this.setState({isSignedIn: true})   
+      //console.log("hi")
+  }
+
+
+  this.setState({route:route})
+    //console.log(this.state.route)
+
+
 
 
 }
@@ -119,18 +140,28 @@ setBox = (box) => {
 
 
   render() {
+    
+
     return(
-      <>
-        <ParticlesBg className="particles" type="circle" bg={true} />
-        <Navigation />
-        <Logo />
-        <Rank />
-        <ImageForm onChangeInput = {this.onChangeInput} onClickButton = {this.onClickButton}/>
-        <FaceRecog box= {this.state.box} imgUrl={this.state.imgUrl}/>
-
-
-      </>
+      
+        <div>
+          <ParticlesBg className="particles" type="circle" bg={true} />
+          <Navigation routeChange={this.routeChange} isSignedIn = {this.state.isSignedIn}/>
+        { this.state.route === "home" 
+          ? <div>
+            <Logo />
+            <Rank />
+            <ImageForm onChangeInput = {this.onChangeInput} onClickButton = {this.onClickButton}/>
+            <FaceRecog box= {this.state.box} imgUrl={this.state.imgUrl}/>  
+          </div>
+          :this.state.route==="register"
+          ? <Register routeChange={this.routeChange} />
+          : <SignIn routeChange={this.routeChange} /> 
+        }
+          
+        </div>
     )
+    
   };
 }
 
