@@ -31,17 +31,26 @@ class App extends React.Component {
       imgUrl:'',
       box:{},
       route:'signin',
-      isSignedIn: false
+      isSignedIn: false,
+      user: {
 
-    }
-  }
+        id:"",
+        username:"",
+        email:"",
+        entries: 0,
+        joined:""
+
+      }
+
+    };
+  };
 
   async componentDidMount() {
     const res = await fetch("http://localhost:3001");
     const data = await res.json();
-    console.log(data)
+    console.log(data);
 
-}
+};
 
 
 apiData = async (IMAGE_URL) => {
@@ -86,7 +95,7 @@ apiData = async (IMAGE_URL) => {
     return box
 
 
-}  
+};
 
 
 
@@ -108,10 +117,23 @@ calculateBox = (box) => {
 
 }
 
+loadUser = (userData) => {
+  this.setState({ user : {
+      id:userData.id,
+      username: userData.username,
+      password: userData.password,
+      email: userData.email,
+      entries: userData.entries,
+      joined: userData.joined
+    }
+  })  
+//console.log(this.state.user)
+};
+
 onChangeInput = (event) =>{
   this.setState({input:event.target.value})
 
-}
+};
 
 onClickButton = async (event) => {
   //console.log(event.target.value)
@@ -122,7 +144,7 @@ onClickButton = async (event) => {
   const boxPercent = await this.apiData(this.state.input)
   this.setBox(this.calculateBox(boxPercent))
 
-}
+};
 
 routeChange = (route) => {
   //console.log(route === "home")
@@ -134,20 +156,16 @@ routeChange = (route) => {
       //console.log("hi")
   }
 
-
   this.setState({route:route})
     //console.log(this.state.route)
 
-
-
-
-}
+};
 
 setBox = (box) => {
   this.setState({box: box})
   console.log(this.state.box)
 
-}
+};
 
 
   render() {
@@ -166,7 +184,7 @@ setBox = (box) => {
             <FaceRecog box= {this.state.box} imgUrl={this.state.imgUrl}/>  
           </div>
           :this.state.route==="register"
-          ? <Register routeChange={this.routeChange} />
+          ? <Register loadUser = {this.loadUser} routeChange={this.routeChange} />
           : <SignIn routeChange={this.routeChange} /> 
         }
           
