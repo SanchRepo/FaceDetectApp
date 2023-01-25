@@ -142,7 +142,19 @@ onClickButton = async (event) => {
   this.setState({imgUrl: this.state.input})
   //const IMAGE_URL = 'https://samples.clarifai.com/metro-north.jpg';
   const boxPercent = await this.apiData(this.state.input)
-  this.setBox(this.calculateBox(boxPercent))
+  if (boxPercent) {
+    this.setBox(this.calculateBox(boxPercent))
+    const res = await fetch("http://localhost:3001/image", {
+      method: "PUT",
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify({id: this.state.user.id})
+    });
+    const userData = await res.json();
+    this.setState(Object.assign(this.state.user, {entries: userData.entries}))
+  }
+  
 
 };
 
