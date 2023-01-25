@@ -6,17 +6,22 @@ const Register = ({routeChange}) => {
 		<article className="br1 ba dark-gray b--black-10 mv4  w-50-m w-25-l shadow-5 center">
 
 				<main className="pa4 black-80">
-				  <form className="measure center">
+				  <div className="measure center">
 				    <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
 				      <legend className="f2 fw6 ph0 mh0">Register</legend>
-				      <div className="mt3">
+{/*				      <div className="mt3">
 				        <label className="db fw6 lh-copy f6">First Name</label>
 				        <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="fname"  id="fname"/>
 				      </div>
 				      <div className="mt3">
 				        <label className="db fw6 lh-copy f6">Last Name</label>
 				        <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="lname"  id="lname"/>
-				      </div>				      
+				      </div>*/}
+
+				      <div className="mt3">
+				        <label className="db fw6 lh-copy f6">Username</label>
+				        <input className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" type="text" name="uname"  id="uname"/>
+				      </div>				      				      
 
 
 
@@ -34,7 +39,7 @@ const Register = ({routeChange}) => {
 				    </div>
 				    <div className="lh-copy mt3">
 				    </div>
-				  </form>
+				  </div>
 				</main>
 			</article>
 	)

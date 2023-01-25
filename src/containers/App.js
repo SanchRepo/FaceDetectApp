@@ -36,6 +36,14 @@ class App extends React.Component {
     }
   }
 
+  async componentDidMount() {
+    const res = await fetch("http://localhost:3001");
+    const data = await res.json();
+    console.log(data)
+
+}
+
+
 apiData = async (IMAGE_URL) => {
     const raw = JSON.stringify({
         "user_app_id": {
@@ -79,6 +87,9 @@ apiData = async (IMAGE_URL) => {
 
 
 }  
+
+
+
 
 calculateBox = (box) => {
   console.log(box);
@@ -160,7 +171,7 @@ setBox = (box) => {
         }
           
         </div>
-    )
+    );
     
   };
 }
