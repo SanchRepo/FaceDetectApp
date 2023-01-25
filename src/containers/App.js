@@ -169,7 +169,7 @@ setBox = (box) => {
 
 
   render() {
-    
+    //console.log(this.state.user)
 
     return(
       
@@ -179,13 +179,13 @@ setBox = (box) => {
         { this.state.route === "home" 
           ? <div>
             <Logo />
-            <Rank />
+            <Rank username= {this.state.user.username} entries= {this.state.user.entries} />
             <ImageForm onChangeInput = {this.onChangeInput} onClickButton = {this.onClickButton}/>
             <FaceRecog box= {this.state.box} imgUrl={this.state.imgUrl}/>  
           </div>
           :this.state.route==="register"
           ? <Register loadUser = {this.loadUser} routeChange={this.routeChange} />
-          : <SignIn routeChange={this.routeChange} /> 
+          : <SignIn loadUser = {this.loadUser} routeChange={this.routeChange} /> 
         }
           
         </div>
