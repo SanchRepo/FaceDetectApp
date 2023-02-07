@@ -9,7 +9,7 @@ const Rank = ({username, entries}) => {
 				<p>{` ${username} your current rank is`}</p>
 			</div>
 			<div className="f1 white tc">
-				<p>{entries}</p>
+				<p>{`${entries}`}</p>
 			</div>
 
 

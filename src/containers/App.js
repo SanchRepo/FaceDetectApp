@@ -45,12 +45,12 @@ class App extends React.Component {
     };
   };
 
-  async componentDidMount() {
-    const res = await fetch("http://localhost:3001");
-    const data = await res.json();
-    console.log(data);
+//   async componentDidMount() {
+//     const res = await fetch("http://localhost:3001");
+//     const data = await res.json();
+//     console.log(data);
 
-};
+// };
 
 
 apiData = async (IMAGE_URL) => {
@@ -101,7 +101,7 @@ apiData = async (IMAGE_URL) => {
 
 
 calculateBox = (box) => {
-  console.log(box);
+  //console.log(box);
   const imgDom = document.getElementById("imgSrc");
   const width = imgDom.width;
   const height = imgDom.height;
@@ -152,7 +152,8 @@ onClickButton = async (event) => {
       body: JSON.stringify({id: this.state.user.id})
     });
     const userData = await res.json();
-    this.setState(Object.assign(this.state.user, {entries: userData.entries}))
+    console.log(userData)
+    this.setState(Object.assign(this.state.user, {entries: userData}))
   }
   
 
@@ -161,10 +162,13 @@ onClickButton = async (event) => {
 routeChange = (route) => {
   //console.log(route === "home")
   if (route === "signin") {
-    this.setState({isSignedIn: false})
+    this.setState({isSignedIn: false});
+    this.setState({box: {}});
+    this.setState({imgUrl: ''});
+    this.setState({input: ''});
     //console.log(this.state.isSignedIn)   
   } else if (route ==="home") {
-      this.setState({isSignedIn: true})   
+      this.setState({isSignedIn: true}); 
       //console.log("hi")
   }
 
@@ -181,7 +185,7 @@ setBox = (box) => {
 
 
   render() {
-    console.log(this.state.user)
+    console.log(this.state)
 
     return(
       

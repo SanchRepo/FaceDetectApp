@@ -20,7 +20,7 @@ class SignIn extends React.Component {
 	}
 
 	signInSubmit = async (event) => {
-		console.log(this.state)
+		//console.log(this.state)
 		const res = await fetch("http://localhost:3001/signin",{
 			method:'POST',
 			headers: {
@@ -33,7 +33,7 @@ class SignIn extends React.Component {
 			
 		});
 		const userData = await res.json();
-		console.log(userData)
+		//console.log(userData)
 		if (userData.id) {
 			this.props.loadUser(userData)
 			this.props.routeChange("home")
