@@ -181,7 +181,7 @@ setBox = (box) => {
 
 
   render() {
-    //console.log(this.state.user)
+    console.log(this.state.user)
 
     return(
       
