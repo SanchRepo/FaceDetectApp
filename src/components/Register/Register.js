@@ -26,7 +26,7 @@ class Register extends React.Component {
 	}
 
 	registerSubmit = async (event) => {
-		console.log(this.state)
+		//console.log(this.state)
 		const res = await fetch("http://localhost:3001/register",{
 			method:'POST',
 			headers: {

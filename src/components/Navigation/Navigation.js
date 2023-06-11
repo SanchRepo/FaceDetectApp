@@ -4,6 +4,7 @@ import "./Navigation.css";
 
 const Navigation = ({routeChange, isSignedIn}) => {
 
+	//If signedin then only show the signout link, else show sign in and signup links
 	if (isSignedIn){
 		return(
 		           

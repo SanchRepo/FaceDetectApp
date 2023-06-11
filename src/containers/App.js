@@ -13,6 +13,8 @@ import './App.css';
 
 window.process = {}
 //console.log(Clarifai)
+
+// Clarifai Authentication Information
 const USER_ID = 'aseeker';
 // Your PAT (Personal Access Token) can be found in the portal under Authentification
 const PAT = 'dda4d4e1eefd43d5bab862d7f94bdcbe';
@@ -23,9 +25,18 @@ const MODEL_VERSION_ID = '45fb9a671625463fa646c3523a3087d5';
 //const IMAGE_URL = 'https://samples.clarifai.com/metro-north.jpg';
 
 
+
+
 class App extends React.Component {
   constructor() {
     super();
+    //the changeable variables within this App
+    // input: This is the text that is currently in the Image Search  box
+    //imgURL: After the user submits the image url from the input, it is saved into this variable
+    //box: This is the boundary points of the face given to us from Clarifai that changes from image to image
+    //route: This variable holds the current display the user is on. Such as homepage, signin, and register.
+    //IsSignedIn: This variables is a boolean that holds if the user is signed in or not to change the nav bar accordingly
+    //user: This holds all the relevant user information that the database sends back for frontend to use
     this.state = {
       input:'',
       imgUrl:'',
@@ -52,7 +63,8 @@ class App extends React.Component {
 
 // };
 
-
+//This function is used to obtain the Clarifai Api data
+//It returns the box boundaries which is parsed from the data sent by Clarifai
 apiData = async (IMAGE_URL) => {
     const raw = JSON.stringify({
         "user_app_id": {
@@ -99,7 +111,7 @@ apiData = async (IMAGE_URL) => {
 
 
 
-
+//This function gets the image and calculates the box boundaries with respect to where the image is in on the webpage
 calculateBox = (box) => {
   //console.log(box);
   const imgDom = document.getElementById("imgSrc");
@@ -117,6 +129,7 @@ calculateBox = (box) => {
 
 }
 
+//This function changes updates user object with the current logged in user. Used in the Signin and Register pages
 loadUser = (userData) => {
   this.setState({ user : {
       id:userData.id,
@@ -130,18 +143,27 @@ loadUser = (userData) => {
 //console.log(this.state.user)
 };
 
+
+//The function changes the input variable to whatever is in the user input box
 onChangeInput = (event) =>{
   this.setState({input:event.target.value})
 
 };
 
+//This is triggered when someone submits the button. 
+
 onClickButton = async (event) => {
   //console.log(event.target.value)
   //"a403429f2ddf4b49b307e318f00e528b"
 
+//It updates the imgURL with whatever is in the input.
   this.setState({imgUrl: this.state.input})
   //const IMAGE_URL = 'https://samples.clarifai.com/metro-north.jpg';
+
+  //Retrives the box points from Clarifai Api
   const boxPercent = await this.apiData(this.state.input)
+
+  //This if statement goes through, it updates the entries by adding 1 and it sends back the updated entry
   if (boxPercent) {
     this.setBox(this.calculateBox(boxPercent))
     const res = await fetch("http://localhost:3001/image", {
@@ -149,20 +171,22 @@ onClickButton = async (event) => {
       headers: {
         'Content-Type':'application/json'
       },
-      body: JSON.stringify({id: this.state.user.id})
+      body: JSON.stringify({id: this.state.user.id}) //we send the id of the user to search the database
     });
-    const userData = await res.json();
+    const userData = await res.json();// get back the entry
     console.log(userData)
-    this.setState(Object.assign(this.state.user, {entries: userData}))
+    this.setState(Object.assign(this.state.user, {entries: userData})) //update the state to reflect the new update
   }
   
 
 };
 
+//Updates the page depending if the user is signed in our not
 routeChange = (route) => {
   //console.log(route === "home")
   if (route === "signin") {
     this.setState({isSignedIn: false});
+    //Due to previous user still staying in the state resulting in old picture showing up. This is a way to clear and reset it.
     this.setState({box: {}});
     this.setState({imgUrl: ''});
     this.setState({input: ''});
@@ -190,8 +214,8 @@ setBox = (box) => {
     return(
       
         <div>
-          <ParticlesBg className="particles" type="circle" bg={true} />
-          <Navigation routeChange={this.routeChange} isSignedIn = {this.state.isSignedIn}/>
+          <ParticlesBg className="particles" type="circle" bg={true} /> //This is to add some flair to the website (Need to make sure it works)
+          <Navigation routeChange={this.routeChange} isSignedIn = {this.state.isSignedIn}/> //The navbar component changes based on if the user is logged in or not.
         { this.state.route === "home" 
           ? <div>
             <Logo />
