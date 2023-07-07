@@ -1,7 +1,7 @@
 import React from 'react';
 import "./ImageForm.css"
 
-
+//the input box to paste links into. A lot of css through tachyons which is imported in the index.css
 const ImageForm = ({onChangeInput, onClickButton}) => {
 
 	return (

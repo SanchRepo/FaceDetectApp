@@ -163,7 +163,8 @@ onClickButton = async (event) => {
   //Retrives the box points from Clarifai Api
   const boxPercent = await this.apiData(this.state.input)
 
-  //This if statement goes through, it updates the entries by adding 1 and it sends back the updated entry
+  //If the carifai api returned data, we use that data and caculate the box boundaries of the face. See calculatebox function for more info
+  //After the calculation set the Box data using setBox function and update the entries data in backend and frontend
   if (boxPercent) {
     this.setBox(this.calculateBox(boxPercent))
     const res = await fetch("http://localhost:3001/image", {
@@ -214,12 +215,14 @@ setBox = (box) => {
     return(
       
         <div>
-          <ParticlesBg className="particles" type="circle" bg={true} /> //This is to add some flair to the website (Need to make sure it works)
-          <Navigation routeChange={this.routeChange} isSignedIn = {this.state.isSignedIn}/> //The navbar component changes based on if the user is logged in or not.
+        {/*} This is to add some flair to the website (Need to make sure it works) */}
+          <ParticlesBg className="particles" type="circle" bg={true} /> 
+        {/* The navbar component changes based on if the user is logged in or not. */}
+          <Navigation routeChange={this.routeChange} isSignedIn = {this.state.isSignedIn}/> 
         { this.state.route === "home" 
           ? <div>
             <Logo />
-            <Rank username= {this.state.user.username} entries= {this.state.user.entries} />
+            <Rank username= {this.state.user.username} entries= {this.state.user.entries} /> 
             <ImageForm onChangeInput = {this.onChangeInput} onClickButton = {this.onClickButton}/>
             <FaceRecog box= {this.state.box} imgUrl={this.state.imgUrl}/>  
           </div>

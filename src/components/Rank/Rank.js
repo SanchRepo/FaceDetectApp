@@ -1,6 +1,6 @@
 import React from 'react'
 
-
+// displays the number of entries on the home page
 const Rank = ({username, entries}) => {
 	return (
 

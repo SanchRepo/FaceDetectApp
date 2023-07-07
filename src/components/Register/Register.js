@@ -25,27 +25,47 @@ class Register extends React.Component {
 		this.setState({pass:event.target.value})
 	}
 
+	validateEmail = (email) => {
+
+		const validRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+		return validRegex.test(String(email).toLowerCase());
+	}
+
 	registerSubmit = async (event) => {
-		//console.log(this.state)
-		const res = await fetch("http://localhost:3001/register",{
-			method:'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				username:this.state.username,
-				email:this.state.email,
-				password:this.state.pass
-			})
-			
-		});
-		const userData = await res.json();
-		//console.log(userData)
-		this.props.loadUser(userData);
-		this.props.routeChange("home");
+		if (this.state.username === "" || this.state.email === "" || this.state.pass === "") {
+			alert("A field is empty!");
+		} else if (/\s/.test(this.state.username) || /\s/.test(this.state.email) || /\s/.test(this.state.pass)) { 
+    
+			alert("A field has spaces!");
+
+
+		} else if (!this.validateEmail(this.state.email)) {
+			alert("Incorrect email format!");
 		
+		} else {
+			//After the user clicks submit, the data is sent to the backend to store the information in the database
+			console.log(this.state.username)
+			const res = await fetch("http://localhost:3001/register",{
+				method:'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					username:this.state.username,
+					email:this.state.email,
+					password:this.state.pass
+				})
+				
+			});
+			const userData = await res.json();
+			//using the functions in App.js
+			this.props.loadUser(userData);  //puts the current state as the newly registered user
+			this.props.routeChange("home"); //logs in
+		}
 	};
 
+//Form from tachyons website, important thing to note here is the onchange for each input tokeep track of field. The submit triggers
+//the registerSubmit function
 	render(){
 
 		return (

@@ -1,7 +1,7 @@
 import React from 'react';
 import './FaceRecog.css'
 
-
+//Displays the submitted image from the user and the box boundaries given by clarifai
 
 const FaceRecog = ({box, imgUrl}) => {
 	return (
