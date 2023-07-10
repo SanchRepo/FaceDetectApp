@@ -8,7 +8,7 @@ const ImageForm = ({onChangeInput, onClickButton}) => {
 		<>
 			<div>
 				<p className="f3 tc">
-				{"This can detect faces from images. Put in a link to an image to test it out! "}</p>
+				{"This app uses two AI models, one in order to detect faces and another to give descriptors, to provide more information to an image. At the moment it only takes images given in the form of links. So upload the image onto the internet and paste the link below to give it a try!"}</p>
 				<div className = "fcenter">
 					<div className="pa4 br3 fcenter pattern shadow-5">
 						<input type="text" className="f4 pa2 w-70 fcenter" onChange={onChangeInput}/>

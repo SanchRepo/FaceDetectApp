@@ -216,7 +216,7 @@ setBox = (box) => {
       
         <div>
         {/*} This is to add some flair to the website (Need to make sure it works) */}
-          <ParticlesBg className="particles" type="circle" bg={true} /> 
+          <ParticlesBg className="particles" type="random" bg={true} /> 
         {/* The navbar component changes based on if the user is logged in or not. */}
           <Navigation routeChange={this.routeChange} isSignedIn = {this.state.isSignedIn}/> 
         { this.state.route === "home" 
