@@ -63,53 +63,80 @@ class App extends React.Component {
 
 // };
 
-//This function is used to obtain the Clarifai Api data
-//It returns the box boundaries which is parsed from the data sent by Clarifai
+// // This function is used to obtain the Clarifai Api data
+// // It returns the box boundaries which is parsed from the data sent by Clarifai
+// apiData = async (IMAGE_URL) => {
+//     const raw = JSON.stringify({
+//         "user_app_id": {
+//             "user_id": USER_ID,
+//             "app_id": APP_ID
+//         },
+//         "inputs": [
+//             {
+//                 "data": {
+//                     "image": {
+//                         "url": IMAGE_URL
+//                     }
+//                 }
+//             }
+//         ]
+//     });
+
+//     const requestOptions = {
+//         method: 'POST',
+//         headers: {
+//             'Accept': 'application/json',
+//             'Authorization': 'Key ' + PAT
+//         },
+//         body: raw
+//     };
+
+//     // NOTE: MODEL_VERSION_ID is optional, you can also call prediction with the MODEL_ID only
+//     // https://api.clarifai.com/v2/models/{YOUR_MODEL_ID}/outputs
+//     // this will default to the latest version_id
+
+//     // fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", requestOptions)
+//     //     .then(response => response.text())
+//     //     .then(result => console.log(result))
+//     //     .catch(error => console.log('error', error));
+
+//     const response = await fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", requestOptions) 
+//     const data = await response.json();
+//     const box = data.outputs[0].data.regions[0].region_info.bounding_box;
+//     //console.log(box)
+//     return box
+// };
+
+// apiData = (IMAGE_URL) => {
+//     fetch("https://localhost:3001/grpc", {
+//     method: "POST",
+//     headers: {
+//       'Content-Type':'application/json'
+//     },
+//     body: JSON.stringify({"imgurl": IMAGE_URL})
+
+//   })
+//   .then(response => response.json())
+//   .then(result => console.log(result))
+//   .catch(error => console.log('error', error));
+    
+// }
+
+
 apiData = async (IMAGE_URL) => {
-    const raw = JSON.stringify({
-        "user_app_id": {
-            "user_id": USER_ID,
-            "app_id": APP_ID
-        },
-        "inputs": [
-            {
-                "data": {
-                    "image": {
-                        "url": IMAGE_URL
-                    }
-                }
-            }
-        ]
+
+  const res = await fetch("http://localhost:3001/face", {
+      method: "POST",
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify({"imgurl": IMAGE_URL}) 
     });
+    const data = await res.json();
 
-    const requestOptions = {
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Authorization': 'Key ' + PAT
-        },
-        body: raw
-    };
+    return data;
 
-    // NOTE: MODEL_VERSION_ID is optional, you can also call prediction with the MODEL_ID only
-    // https://api.clarifai.com/v2/models/{YOUR_MODEL_ID}/outputs
-    // this will default to the latest version_id
-
-    // fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", requestOptions)
-    //     .then(response => response.text())
-    //     .then(result => console.log(result))
-    //     .catch(error => console.log('error', error));
-
-    const response = await fetch("https://api.clarifai.com/v2/models/" + MODEL_ID + "/versions/" + MODEL_VERSION_ID + "/outputs", requestOptions) 
-    const data = await response.json();
-    const box = data.outputs[0].data.regions[0].region_info.bounding_box;
-    //console.log(box)
-    return box
-
-
-};
-
-
+}
 
 //This function gets the image and calculates the box boundaries with respect to where the image is in on the webpage
 calculateBox = (box) => {
@@ -162,6 +189,10 @@ onClickButton = async (event) => {
 
   //Retrives the box points from Clarifai Api
   const boxPercent = await this.apiData(this.state.input)
+  //console.log(this.state.input)
+
+
+  //const boxPercent = await boxRes.json(); 
 
   //If the carifai api returned data, we use that data and caculate the box boundaries of the face. See calculatebox function for more info
   //After the calculation set the Box data using setBox function and update the entries data in backend and frontend
@@ -175,7 +206,7 @@ onClickButton = async (event) => {
       body: JSON.stringify({id: this.state.user.id}) //we send the id of the user to search the database
     });
     const userData = await res.json();// get back the entry
-    console.log(userData)
+    //console.log(userData)
     this.setState(Object.assign(this.state.user, {entries: userData})) //update the state to reflect the new update
   }
   
@@ -210,13 +241,13 @@ setBox = (box) => {
 
 
   render() {
-    console.log(this.state)
+    //console.log(this.state)
 
     return(
       
         <div>
         {/*} This is to add some flair to the website (Need to make sure it works) */}
-          <ParticlesBg className="particles" type="random" bg={true} /> 
+          <ParticlesBg className="particles" type="cobweb" bg={true} /> 
         {/* The navbar component changes based on if the user is logged in or not. */}
           <Navigation routeChange={this.routeChange} isSignedIn = {this.state.isSignedIn}/> 
         { this.state.route === "home" 
