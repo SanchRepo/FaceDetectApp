@@ -125,7 +125,8 @@ class App extends React.Component {
 
 apiData = async (IMAGE_URL) => {
 
-  const res = await fetch("http://localhost:3001/face", {
+  // const res = await fetch("http://localhost:3001/face", {
+  const res = await fetch("https://appserver-xdco.onrender.com/face", {
       method: "POST",
       headers: {
         'Content-Type':'application/json'
@@ -198,7 +199,8 @@ onClickButton = async (event) => {
   //After the calculation set the Box data using setBox function and update the entries data in backend and frontend
   if (boxPercent) {
     this.setBox(this.calculateBox(boxPercent))
-    const res = await fetch("http://localhost:3001/image", {
+    // const res = await fetch("http://localhost:3001/image", {
+    const res = await fetch("https://appserver-xdco.onrender.com/image",{
       method: "PUT",
       headers: {
         'Content-Type':'application/json'

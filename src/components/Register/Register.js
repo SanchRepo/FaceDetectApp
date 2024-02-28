@@ -45,7 +45,8 @@ class Register extends React.Component {
 		} else {
 			//After the user clicks submit, the data is sent to the backend to store the information in the database
 			console.log(this.state.username)
-			const res = await fetch("http://localhost:3001/register",{
+			// const res = await fetch("http://localhost:3001/register",{
+			const res = await fetch("https://appserver-xdco.onrender.com/register",{	
 				method:'POST',
 				headers: {
 					'Content-Type': 'application/json'
